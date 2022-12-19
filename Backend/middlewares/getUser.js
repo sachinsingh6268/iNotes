@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const getUser = (req, res, next) => {
     const token = req.header('auth-token');
-    // console.log(token)
+    console.log(token)
     if (token == null) {
         res.status(401).send("Unauthenticated User");
     }
@@ -15,6 +15,7 @@ const getUser = (req, res, next) => {
         next();
 
     } catch (error) {
+        console.log("coming here")
         res.status(401).send("Unauthenticated User");
     }
 }
