@@ -5,7 +5,6 @@ const Note = require('../models/Note');
 const { body, validationResult } = require('express-validator')
 
 
-
 // ROUTE 1 -- Fetch all the notes corresponding to a logged in user using GET 'api/notes/getallnotes', Login required
 router.get('/getallnotes', getUser, async (req, res) => {
     const notes = await Note.find({ user: req.user.id });
@@ -14,7 +13,7 @@ router.get('/getallnotes', getUser, async (req, res) => {
     }
 
     try {
-        res.json({ notes });
+        res.json(notes);
     } catch (error) {
         res.status(500).send("Internal Server Error");
     }
@@ -33,13 +32,16 @@ router.post('/addnote', getUser, [
 
     try {
         const { title, description, tag } = req.body // using concept of destructuring
-        const note = await new Note({
+        const note = new Note({
             user: req.user.id,
-            title, description, tag
+            title: title,
+            description: description,
+            tag: tag
         })
+
         // after creating the note, we will save it 
         const savedNote = await note.save();
-        res.json({ savedNote });
+        res.json(savedNote);
 
     } catch (error) {
         console.log(error.message)
@@ -76,7 +78,7 @@ router.put('/updatenote/:id', getUser, async (req, res) => {
 
         note = await Note.findByIdAndUpdate(req.params.id, { $set: newNote }, { new: true })
         // note.save();
-        res.json({ note });
+        res.json(note);
     }
     catch (error) {
         return res.status(500).send("Internal Server Error");

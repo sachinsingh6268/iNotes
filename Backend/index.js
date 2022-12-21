@@ -9,7 +9,7 @@ const port = 4000;
 const connectToMongo = require('./db');
 
 // fixing cors error
-app.use(cors());
+app.use(cors())
 
 connectToMongo();
 app.use(express.json());

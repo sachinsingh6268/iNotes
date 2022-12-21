@@ -1,7 +1,14 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
+
+    let navigate = useNavigate();
+
+    function handleLogout() {
+        localStorage.clear();
+        navigate('/signin');
+    }
 
     const location = useLocation();
 
@@ -21,10 +28,13 @@ const Navbar = () => {
                             <Link className="nav-link" to="/about">About</Link>
                         </li>
                     </ul>
-                    <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <Link className="btn btn-primary me-md-2" to="/signin" >SignIn</Link>
+                    {localStorage.getItem('token') ? <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button className="btn btn-primary me-md-2" onClick={handleLogout} >Logout</button>
+                    </div> : <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button className="btn btn-primary me-md-2" to="/signin">SignIn</button>
                         <Link className="btn btn-primary" to="/signup" >SignUp</Link>
-                    </div>
+                        {/* <span>{details.name} &nbsp;&nbsp; {details.email}</span>  */}
+                    </div>}
                 </div>
             </div>
         </nav>

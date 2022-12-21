@@ -5,7 +5,7 @@ const About = ()=>{
     // const a = useContext(noteContext);
      
     return (
-        <div className="container">
+        <div className="container my-3">
             <h1> About Page </h1>
         </div>
     );

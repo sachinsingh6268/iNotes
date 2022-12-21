@@ -12,21 +12,30 @@ import {
   Route,
 } from "react-router-dom";
 import NoteState from './contexts/notes/noteState';
+import { useState } from 'react';
 
 function App() {
+
+  const [alert,setAlert] = useState(null);
+  function showAlert(type,message){
+    setAlert({message:message,type:type});
+    setTimeout(() => {
+      setAlert(null);
+    }, 2500);
+  }
   return (
     <>
       {/* we are wrapping everything in "NoteState" so that we can use the props and fn in or inside the files that are written inside it here  */}
-      <NoteState>
+      <NoteState showAlert={showAlert}>
         <Router>
           <Navbar />
-          <Alert message="Work has been done"/>
+          <Alert alert={alert}/>
           <div className="container">
             <Routes>
-              <Route exact path='/' element={<Home />} />
+              <Route exact path='/' element={<Home showAlert={showAlert}/>} />
               <Route exact path='/about' element={<About />} />
-              <Route exact path='/signin' element={<SignIn/>} />
-              <Route exact path='/signup' element={<SignUp/>} />
+              <Route exact path='/signin' element={<SignIn showAlert={showAlert}/>} />
+              <Route exact path='/signup' element={<SignUp showAlert={showAlert}/>} />
             </Routes>
           </div>
         </Router>
